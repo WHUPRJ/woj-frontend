@@ -21,6 +21,6 @@
     "baseUrl": "./src",
     "importHelpers": true
   },
-  "include": ["src", "**/*.ts", "**/*.tsx"],
-  "exclude": ["./node_modules"]
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

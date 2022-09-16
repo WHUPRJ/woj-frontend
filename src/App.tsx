@@ -9,7 +9,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { renderRoutes } from 'react-router-config';
-import routes from 'router';
+import routes from './router';
 
 const mdTheme = createTheme();
 
