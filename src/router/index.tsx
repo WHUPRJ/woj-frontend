@@ -5,7 +5,7 @@ const Index = loadable(() => import('../pages/index'));
 const Login = loadable(() => import('../pages/login'));
 const Register = loadable(() => import('../pages/register'));
 const Page404 = loadable(() => import('../pages/page404'));
-
+const Problem = loadable(() => import('../pages/problem'));
 const router = createHashRouter([
   {
     path: '/',
@@ -18,6 +18,10 @@ const router = createHashRouter([
   {
     path: '/Register',
     element: <Register />,
+  },
+  {
+    path: '/Problem',
+    element: <Problem />,
   },
   {
     path: '*',
