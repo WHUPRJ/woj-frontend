@@ -1,7 +1,7 @@
 import React from 'react';
 
-function Pages() {
-  return <div>Pages</div>;
+function Index() {
+  return <div>这是主页</div>;
 }
 
-export default Pages;
+export default Index;
