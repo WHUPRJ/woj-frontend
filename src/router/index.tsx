@@ -1,4 +1,3 @@
-import React from 'react';
 import { createHashRouter } from 'react-router-dom';
 import loadable from '@loadable/component';
 const Index = loadable(() => import('../pages/index'));
