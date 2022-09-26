@@ -11,8 +11,8 @@ type RegisterStruct = {
 };
 
 type LoginStruct = {
-  username: string;
-  password: string;
+  username?: string;
+  password?: string;
 };
 
 type TokenResponse = APIResponse<string>;

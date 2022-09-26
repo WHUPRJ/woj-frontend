@@ -42,7 +42,7 @@ export default function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const senddata: RegisterStruct = {
+    const senddata: LoginStruct = {
       username: data.get('username')?.toString(),
       password: data.get('password')?.toString(),
     };
