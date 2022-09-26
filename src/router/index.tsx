@@ -5,13 +5,16 @@ const Login = loadable(() => import('../pages/login'));
 const Register = loadable(() => import('../pages/register'));
 const Page404 = loadable(() => import('../pages/page404'));
 const Problem = loadable(() => import('../pages/problem'));
+// const Profile = loadable(() => import('../pages/profile'));
+import Profile from '../pages/profile';
+
 const router = createHashRouter([
   {
     path: '/',
     element: <Index />,
   },
   {
-    path: '/login',
+    path: '/Login',
     element: <Login />,
   },
   {
@@ -21,6 +24,10 @@ const router = createHashRouter([
   {
     path: '/Problem',
     element: <Problem />,
+  },
+  {
+    path: '/Profile',
+    element: <Profile />,
   },
   {
     path: '*',

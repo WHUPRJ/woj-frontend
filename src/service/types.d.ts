@@ -15,4 +15,18 @@ type LoginStruct = {
   password: string;
 };
 
-type Token = APIResponse<string>;
+type TokenResponse = APIResponse<string>;
+
+type ProfileStruct = {
+  token: string;
+  uid: number;
+};
+
+type User = {
+  user_name: string;
+  nick_name: string;
+  role: number;
+  is_enabled: boolean;
+};
+
+type UserResponse = APIResponse<User>;

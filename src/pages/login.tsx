@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,6 +11,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import * as API from '../service/api';
 
 function Copyright() {
   return (
@@ -32,18 +38,50 @@ function Copyright() {
 const theme = createTheme();
 
 export default function Login() {
+  const [alert, setAlert] = useState<string>('');
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('username'),
-      password: data.get('password'),
-    });
+    const senddata: RegisterStruct = {
+      username: data.get('username')?.toString(),
+      password: data.get('password')?.toString(),
+    };
+    console.log(senddata);
+    API.login(senddata)
+      .then((res) => {
+        // login success
+        localStorage.setItem('token', res);
+        localStorage.setItem('username', senddata.username ?? ''); // save userdata to localstorage
+        location.href = '/';
+      })
+      .catch((err) => {
+        setAlert(err);
+      });
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
+        <Collapse in={alert !== ''}>
+          <Alert
+            severity="error"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setAlert('');
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            {alert}
+          </Alert>
+        </Collapse>
         <CssBaseline />
         <Box
           sx={{

@@ -8,7 +8,6 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import router from './router';
-import Button from '@mui/material/Button';
 import Me from './components/me';
 
 const mdTheme = createTheme();
@@ -32,12 +31,6 @@ function App() {
             >
               WOJ
             </Typography>
-            <Button href="/#/login" variant="contained">
-              Login
-            </Button>
-            <Button href="/#/register" variant="contained">
-              Register
-            </Button>
             <Me />
           </Toolbar>
         </AppBar>
