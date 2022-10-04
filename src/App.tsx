@@ -9,6 +9,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import router from './router';
 import Me from './components/me';
+import SearchBar from './components/searchbar';
 
 const mdTheme = createTheme();
 
@@ -31,6 +32,7 @@ function App() {
             >
               WOJ
             </Typography>
+            <SearchBar />
             <Me />
           </Toolbar>
         </AppBar>

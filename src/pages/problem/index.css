@@ -10,12 +10,6 @@
   --gray-10: #1b1f23;
 }
 
-body {
-  background-color: var(--gray-10);
-  color: var(--gray-0);
-  margin: 0;
-}
-
 .page-header {
   font-size: inherit;
   margin: calc(1em + 1ex);
