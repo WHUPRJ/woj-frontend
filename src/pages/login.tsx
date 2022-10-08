@@ -50,8 +50,9 @@ export default function Login() {
     API.login(senddata)
       .then((res) => {
         // login success
-        localStorage.setItem('token', res);
+        localStorage.setItem('token', res.token);
         localStorage.setItem('username', senddata.username ?? ''); // save userdata to localstorage
+        localStorage.setItem('nickname', res.nickname);
         location.href = '/';
       })
       .catch((err) => {

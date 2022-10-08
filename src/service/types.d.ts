@@ -17,12 +17,19 @@ type LoginStruct = {
 
 type TokenResponse = APIResponse<string>;
 
+type User = {
+  nickname: string;
+  token: string;
+};
+
+type UserResponse = APIResponse<User>;
+
 type ProfileStruct = {
   token: string;
   uid: number;
 };
 
-type User = {
+type Profile = {
   user_name: string;
   nick_name: string;
   role: number;
@@ -34,16 +41,22 @@ type Token = {
   role: number;
 };
 
-type UserResponse = APIResponse<User>;
+type ProfileResponse = APIResponse<Profile>;
+
+// type ProblemStruct = {
+//   token: string;
+//   title?: string;
+//   content?: string;
+//   time_limit?: number;
+//   memory_limit?: number;
+//   pid?: number;
+//   is_enabled?: boolean;
+// };
 
 type ProblemStruct = {
   token: string;
-  title?: string;
-  content?: string;
-  time_limit?: number;
-  memory_limit?: number;
-  pid?: number;
-  is_enabled?: boolean;
+  file: File;
+  pid: number;
 };
 
 type Problem = {

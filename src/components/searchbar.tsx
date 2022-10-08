@@ -1,36 +1,49 @@
 import * as React from 'react';
 import { useState, useCallback } from 'react';
-import { styled } from '@mui/system';
+import { styled, alpha } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
+import InputBase from '@mui/material/InputBase';
 
-const StyledSearch = styled('div')`
-  /* display: flex;
-  flex-direction: column; */
-`;
+const StyledSearch = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}));
 
-const StyledInputElement = styled('input')`
-  width: 260px;
-  font-size: 1rem;
-  font-family: IBM Plex Sans, sans-serif;
-  font-weight: 400;
-  line-height: 1.4375em;
-  background: rgb(243, 246, 249);
-  border: 1px solid #e5e8ec;
-  border-radius: 10px;
-  padding: 6px 10px;
-  color: #20262d;
-  transition: width 300ms ease;
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
 
-  &:hover {
-    background: #eaeef3;
-    border-color: #e5e8ec;
-  }
-
-  &:focus {
-    outline: none;
-    width: 320px;
-    transition: width 200ms ease-out;
-  }
-`;
+const StyledInputElement = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '15ch',
+      '&:focus': {
+        width: '22ch',
+      },
+    },
+  },
+}));
 
 export default function SearchBar(): React.ReactElement {
   const [search, setSearch] = useState('');
@@ -40,6 +53,9 @@ export default function SearchBar(): React.ReactElement {
 
   return (
     <StyledSearch sx={{ zIndex: 100000 }}>
+      <SearchIconWrapper>
+        <SearchIcon />
+      </SearchIconWrapper>
       <StyledInputElement
         placeholder="搜索题号或题目名"
         onChange={(e) => {

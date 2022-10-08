@@ -8,7 +8,7 @@ import { deepOrange } from '@mui/material/colors';
 import Stack from '@mui/material/Stack';
 
 function Profile() {
-  const [result, setResult] = useState<User>();
+  const [result, setResult] = useState<Profile>();
   const { uid } = useParams();
   // console.log(props.location);
   // const query = new URLSearchParams(props.location);
