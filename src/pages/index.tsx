@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
 import Jump from '../components/jump';
 import { useState, useEffect } from 'react';
-
+import Calendar from '../components/calendar';
 function Index() {
   const [nickname, setNickname] = useState('');
   useEffect(() => {
@@ -14,6 +14,9 @@ function Index() {
         欢迎来到 WOJ {nickname !== '' ? ', ' + nickname : ''}
       </Typography>
       <Jump />
+      <br />
+      <br />
+      <Calendar />
     </div>
   );
 }

@@ -48,10 +48,14 @@ function App() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['题库', '提交记录', '个人信息', '注销'].map((text) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemText primary={text} />
+        {[
+          ['题库', '/#/problemlist'],
+          ['提交记录', '/#/record'],
+          ['个人信息', '/#/profile'],
+        ].map((arr) => (
+          <ListItem key={arr[0]} disablePadding>
+            <ListItemButton href={arr[1]}>
+              <ListItemText primary={arr[0]} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -120,7 +124,7 @@ function App() {
             height: '100vh',
             overflow: 'auto',
             marginTop: 3,
-            marginLeft: 3,
+            marginLeft: 4,
           }}
         >
           <Toolbar />
