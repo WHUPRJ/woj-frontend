@@ -9,8 +9,8 @@ const Problemlist = loadable(() => import('../pages/problemlist'));
 const Profile = loadable(() => import('../pages/profile'));
 const NewProblem = loadable(() => import('../pages/newproblem'));
 const Admin = loadable(() => import('../pages/admin'));
-const Search = loadable(() => import('../pages/search'));
 const Record = loadable(() => import('../pages/record'));
+const Submit = loadable(() => import('../pages/submit'));
 const router = createHashRouter([
   {
     path: '/',
@@ -45,16 +45,24 @@ const router = createHashRouter([
     element: <NewProblem />,
   },
   {
+    path: '/NewProblem/:pid',
+    element: <NewProblem />,
+  },
+  {
     path: '/admin',
     element: <Admin />,
   },
   {
-    path: '/search/:keyword',
-    element: <Search />,
+    path: '/Problemlist/:keyword',
+    element: <Problemlist />,
   },
   {
     path: '/record',
     element: <Record />,
+  },
+  {
+    path: '/submit',
+    element: <Submit />,
   },
   {
     path: '*',

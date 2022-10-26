@@ -15,7 +15,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import TableHead from '@mui/material/TableHead';
-import Typography from '@mui/material/Typography';
+import * as API from '../service/api';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -97,31 +97,22 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
   );
 }
 
-function createData(
-  name: string,
-  score: number,
-  problem: string,
-  time: number,
-  memory: number,
-  correct: boolean
-) {
-  return { name, score, problem, time, memory, correct };
-}
-
-const rows = [
-  createData('zyt', 90, 'P1387 最大正方形', 2.9, 96, false),
-  createData('zyt', 195, 'P2280 [HNOI2003]激光炸弹', 1.73, 200, false),
-  createData('cxy', 100, 'P5441 【XR-2】伤痕', 2.4, 100, true),
-  createData('qjh', 100, 'P5595 【XR-4】歌唱比赛', 0.7, 50, true),
-  createData('zwx', 100, 'P2123 皇后游戏', 0.31, 10, true),
-];
-
-export default function BasicTable() {
+export default function ProblemTable() {
   const [page, setPage] = React.useState(0);
   //这里修改每面多少行
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(50);
+  const [rows, setRows] = React.useState<ProblemList>([]);
+  React.useEffect(() => {
+    API.getProblemList()
+      .then((res) => {
+        console.log(res);
+        setRows(res);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }, []);
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -143,11 +134,10 @@ export default function BasicTable() {
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
-            <TableCell>name</TableCell>
-            <TableCell align="left">score</TableCell>
-            <TableCell align="left">problem</TableCell>
-            <TableCell align="left">time&nbsp;(s)</TableCell>
-            <TableCell align="left">memory&nbsp;(MB)</TableCell>
+            <TableCell>题号</TableCell>
+            <TableCell align="left">题目名</TableCell>
+            <TableCell>创建人</TableCell>
+            <TableCell align="left">创建时间</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -155,23 +145,20 @@ export default function BasicTable() {
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
+            <TableRow key={row.meta.ID}>
+              <TableCell
+                component="th"
+                scope="row"
+                sx={{ width: 100 }}
+                align="left"
+              >
+                {row.meta.ID}
               </TableCell>
+              <TableCell align="left">{row.title}</TableCell>
+              <TableCell align="left">{row.provider.nick_name}</TableCell>
               <TableCell align="left">
-                <Typography
-                  component="h2"
-                  variant="h6"
-                  color={row.correct === true ? 'green' : 'red'}
-                  gutterBottom
-                >
-                  {row.score}
-                </Typography>
+                {row.meta.CreatedAt.substring(0, 10)}
               </TableCell>
-              <TableCell align="left">{row.problem}</TableCell>
-              <TableCell align="left">{row.time}</TableCell>
-              <TableCell align="left">{row.memory}</TableCell>
             </TableRow>
           ))}
           {emptyRows > 0 && (
@@ -183,7 +170,7 @@ export default function BasicTable() {
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              rowsPerPageOptions={[10, 50, 100, { label: 'All', value: -1 }]}
               colSpan={3}
               count={rows.length}
               rowsPerPage={rowsPerPage}

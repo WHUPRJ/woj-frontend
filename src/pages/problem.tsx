@@ -4,7 +4,7 @@ import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import './index.css';
+import './github-markdown.css';
 const problem = `# 1000. A+B Problem
 Input $A$ and $B$, Print $A+B$
 $$

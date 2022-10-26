@@ -55,31 +55,38 @@ type ProfileResponse = APIResponse<Profile>;
 
 type ProblemStruct = {
   token: string;
-  file: File;
+  file?: File;
   pid: number;
+  title: string;
+  statement: string;
+  is_enabled: boolean;
 };
 
 type Problem = {
   meta: {
     ID: number;
-    CreatedAt: Date;
-    UpdatedAt: Date;
+    CreatedAt: string;
+    UpdatedAt: string;
   };
   title: string;
-  content: string;
-  time_limit: number;
-  memory_limit: number;
-  provider_id: number;
+  statement: string;
+  provider: Profile;
   is_enabled: boolean;
 };
 
 type ProblemResponse = APIResponse<Problem>;
 
 type SearchStruct = {
-  pid?: number;
   search?: string;
 };
 
 type ProblemList = Array<Problem>;
 
 type ProblemListResponse = APIResponse<ProblemList>;
+
+type Upload = {
+  key: string;
+  url: string;
+};
+
+type UploadResponse = APIResponse<Upload>;
