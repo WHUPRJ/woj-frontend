@@ -59,7 +59,18 @@ type ProblemStruct = {
   pid: number;
   title: string;
   statement: string;
-  is_enabled: boolean;
+};
+
+type language = {
+  Cmp: string;
+  Lang: string;
+  Script: string;
+  Type: string;
+};
+
+type Task = {
+  Id: number;
+  Points: number;
 };
 
 type Problem = {
@@ -74,10 +85,32 @@ type Problem = {
   is_enabled: boolean;
 };
 
+type ProblemDetail = {
+  problem: Problem;
+  context: {
+    // only in detail
+    Languages: Array<language>;
+    Runtime: {
+      MemoryLimit: number;
+      NProcLimit: number;
+      TimeLimit: number;
+    };
+    Tasks: Array<Task>;
+  };
+};
+
 type ProblemResponse = APIResponse<Problem>;
+type ProblemDetailResponse = APIResponse<ProblemDetail>;
 
 type SearchStruct = {
   search?: string;
+};
+
+type SubmitStruct = {
+  token: string;
+  pid: number;
+  language: string;
+  code: string;
 };
 
 type ProblemList = Array<Problem>;

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -103,19 +102,23 @@ export default function ProblemTable() {
   //这里修改每面多少行
   const [rowsPerPage, setRowsPerPage] = React.useState(50);
   const [rows, setRows] = React.useState<ProblemList>([]);
-  const { keyword } = useParams();
+  // console.log(props.location);
+  // const query = new URLSearchParams(props.location);
+
   React.useEffect(() => {
-    let search: SearchStruct | undefined = undefined;
-    if (keyword !== undefined) search = { search: keyword };
-    API.getProblemList(search)
+    const user_name = localStorage.getItem('username');
+    if (user_name === null) return;
+    API.getProblemList()
       .then((res) => {
         console.log(res);
-        setRows(res);
+        setRows(
+          res.filter((problem) => problem.provider.user_name === user_name)
+        );
       })
       .catch((err) => {
         alert(err);
       });
-  }, [keyword]);
+  }, []);
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -140,7 +143,6 @@ export default function ProblemTable() {
           <TableRow>
             <TableCell>题号</TableCell>
             <TableCell align="left">题目名</TableCell>
-            <TableCell>创建人</TableCell>
             <TableCell align="left">创建时间</TableCell>
           </TableRow>
         </TableHead>
@@ -161,7 +163,6 @@ export default function ProblemTable() {
               <TableCell align="left">
                 <a href={'/#/problem/' + row.meta.ID}>{row.title}</a>
               </TableCell>
-              <TableCell align="left">{row.provider.nick_name}</TableCell>
               <TableCell align="left">
                 {row.meta.CreatedAt.substring(0, 10)}
               </TableCell>

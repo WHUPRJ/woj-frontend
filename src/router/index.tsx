@@ -25,7 +25,7 @@ const router = createHashRouter([
     element: <Register />,
   },
   {
-    path: '/Problem',
+    path: '/Problem/:pid',
     element: <Problem />,
   },
   {
@@ -61,7 +61,7 @@ const router = createHashRouter([
     element: <Record />,
   },
   {
-    path: '/submit',
+    path: '/submit/:pid',
     element: <Submit />,
   },
   {

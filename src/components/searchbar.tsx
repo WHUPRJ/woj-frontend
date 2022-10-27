@@ -63,7 +63,7 @@ export default function SearchBar(): React.ReactElement {
         }}
         onKeyUp={(e) => {
           if (e.key === 'Enter') {
-            location.href = '/#/search/' + search;
+            location.href = '/#/problemlist/' + search;
           }
         }}
       />

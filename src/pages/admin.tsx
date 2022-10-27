@@ -1,5 +1,7 @@
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
+import Paper from '@mui/material/Paper';
+import MyProblem from '../components/myproblem';
 function Admin() {
   return (
     <div style={{ marginLeft: 20 }}>
@@ -13,6 +15,20 @@ function Admin() {
       >
         <AddIcon /> 上传新题目
       </Button>
+      <br />
+      <br />
+      <br />
+      <h3>您已经上传的题目</h3>
+      <Paper
+        sx={{
+          p: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          marginRight: 20,
+        }}
+      >
+        <MyProblem />
+      </Paper>
     </div>
   );
 }
