@@ -89,6 +89,45 @@ export async function getProblem(pid: number): Promise<ProblemDetail> {
   }
 }
 
+export async function getSubmissions(
+  option: QueryStruct
+): Promise<SubmissionList> {
+  if (option.pid === undefined && option.uid === undefined)
+    return Promise.reject('参数未定义');
+  try {
+    const response = await axios.post<SubmissionListResponse>(
+      '/submission/query',
+      {
+        uid: option.uid,
+        pid: option.pid,
+        offset: 0,
+        limit: 500,
+      }
+    );
+    if (response.data === undefined) return Promise.reject('服务器错误');
+    if (response.data.code !== 0 || response.data.body === undefined)
+      return Promise.reject(response.data.msg ?? '服务器错误');
+    return response.data.body;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+export async function getSubmission(sid: number): Promise<Submission> {
+  if (sid === undefined) return Promise.reject('参数未定义');
+  try {
+    const response = await axios.post<SubmissionResponse>('/status/query', {
+      sid: sid,
+    });
+    if (response.data === undefined) return Promise.reject('服务器错误');
+    if (response.data.code !== 0 || response.data.body === undefined)
+      return Promise.reject(response.data.msg ?? '服务器错误');
+    return response.data.body;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 export async function submit(option: SubmitStruct): Promise<void> {
   try {
     if (

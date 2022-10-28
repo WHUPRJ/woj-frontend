@@ -20,14 +20,14 @@ function Record() {
           <Chart />
         </Paper>
       </div>
-      <div>
+      {/* <div>
         <Typography component="h1" variant="h5">
           提交数
         </Typography>
         <Typography component="h1" variant="h5">
           通过数
         </Typography>
-      </div>
+      </div> */}
       <div>
         <Paper
           sx={{

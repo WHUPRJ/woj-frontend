@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -16,6 +18,8 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import TableHead from '@mui/material/TableHead';
 import Typography from '@mui/material/Typography';
+import * as API from '../service/api';
+import jwtDecode from 'jwt-decode';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -97,31 +101,30 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
   );
 }
 
-function createData(
-  name: string,
-  score: number,
-  problem: string,
-  time: number,
-  memory: number,
-  correct: boolean
-) {
-  return { name, score, problem, time, memory, correct };
-}
-
-const rows = [
-  createData('zyt', 90, 'P1387 最大正方形', 2.9, 96, false),
-  createData('zyt', 195, 'P2280 [HNOI2003]激光炸弹', 1.73, 200, false),
-  createData('cxy', 100, 'P5441 【XR-2】伤痕', 2.4, 100, true),
-  createData('qjh', 100, 'P5595 【XR-4】歌唱比赛', 0.7, 50, true),
-  createData('zwx', 100, 'P2123 皇后游戏', 0.31, 10, true),
-];
-
-export default function BasicTable() {
-  const [page, setPage] = React.useState(0);
+export default function RecordTable() {
+  const [page, setPage] = useState(0);
   //这里修改每面多少行
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [rows, setRows] = useState<SubmissionList>([]);
+  const [uid, setUid] = useState(0);
+  const [pid, setPid] = useState(0);
+  useEffect(() => {
+    //get uid
+    const token = localStorage.getItem('token');
+    if (token === null) return;
+    const duid = (jwtDecode(token) as Token).id;
+    setUid(duid);
+    API.getSubmissions({ uid: duid, pid: pid })
+      .then((res) => {
+        if (res === null || res === undefined) setRows([]);
+        else
+          setRows(
+            res.sort((a, b) => b.submission.meta.ID - a.submission.meta.ID)
+          );
+      })
+      .catch((err) => alert(err));
+  }, [uid, pid]);
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -140,14 +143,16 @@ export default function BasicTable() {
   };
   return (
     <TableContainer component={Paper}>
+      查找指定题号：
+      <Input onChange={(e) => setPid(parseInt(e.target.value))} />
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
-            <TableCell>name</TableCell>
-            <TableCell align="left">score</TableCell>
-            <TableCell align="left">problem</TableCell>
-            <TableCell align="left">time&nbsp;(s)</TableCell>
-            <TableCell align="left">memory&nbsp;(MB)</TableCell>
+            <TableCell>提交号</TableCell>
+            <TableCell align="left">分数</TableCell>
+            <TableCell align="left">题号</TableCell>
+            <TableCell align="left">语言</TableCell>
+            <TableCell align="left">提交时间</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -155,23 +160,25 @@ export default function BasicTable() {
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
+            <TableRow key={row.submission.meta.ID}>
+              <TableCell component="th" scope="row" sx={{ width: 100 }}>
+                {row.submission.meta.ID}
               </TableCell>
-              <TableCell align="left">
+              <TableCell align="left" sx={{ width: 100 }}>
                 <Typography
                   component="h2"
                   variant="h6"
-                  color={row.correct === true ? 'green' : 'red'}
+                  color={row.point === 100 ? 'green' : 'red'}
                   gutterBottom
                 >
-                  {row.score}
+                  {row.point}
                 </Typography>
               </TableCell>
-              <TableCell align="left">{row.problem}</TableCell>
-              <TableCell align="left">{row.time}</TableCell>
-              <TableCell align="left">{row.memory}</TableCell>
+              <TableCell align="left">{row.submission.problem_id}</TableCell>
+              <TableCell align="left">{row.submission.language}</TableCell>
+              <TableCell align="left">
+                {row.submission.meta.CreatedAt.substring(0, 10)}
+              </TableCell>
             </TableRow>
           ))}
           {emptyRows > 0 && (
@@ -183,7 +190,7 @@ export default function BasicTable() {
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              rowsPerPageOptions={[20, 50, 100, { label: 'All', value: -1 }]}
               colSpan={3}
               count={rows.length}
               rowsPerPage={rowsPerPage}

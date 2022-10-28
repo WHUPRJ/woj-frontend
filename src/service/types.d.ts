@@ -30,6 +30,10 @@ type ProfileStruct = {
 };
 
 type Profile = {
+  meta: {
+    ID: number;
+    CreateAt: string;
+  };
   user_name: string;
   nick_name: string;
   role: number;
@@ -123,3 +127,27 @@ type Upload = {
 };
 
 type UploadResponse = APIResponse<Upload>;
+
+type QueryStruct = {
+  uid: number;
+  pid: number;
+};
+
+type Submission = {
+  submission: {
+    meta: {
+      ID: number;
+      CreatedAt: string;
+    };
+    problem_id: number;
+    user: Profile;
+    language: string;
+  };
+  point: number;
+};
+
+type SubmissionList = Array<Submission>;
+
+type SubmissionResponse = APIResponse<Submission>;
+
+type SubmissionListResponse = APIResponse<SubmissionList>;

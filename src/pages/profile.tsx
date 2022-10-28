@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import * as api from '../service/api';
+import * as API from '../service/api';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
@@ -14,11 +14,10 @@ function Profile() {
   // const query = new URLSearchParams(props.location);
   useEffect(() => {
     const token = localStorage.getItem('token');
-    api
-      .profile({
-        token: token == null ? '' : token,
-        uid: uid === undefined || uid === null ? 0 : +uid,
-      })
+    API.profile({
+      token: token == null ? '' : token,
+      uid: uid === undefined || uid === null ? 0 : +uid,
+    })
       .then((res) => {
         setResult(res);
       })
