@@ -11,6 +11,7 @@ const NewProblem = loadable(() => import('../pages/newproblem'));
 const Admin = loadable(() => import('../pages/admin'));
 const Record = loadable(() => import('../pages/record'));
 const Submit = loadable(() => import('../pages/submit'));
+const Submission = loadable(() => import('../pages/submission'));
 const router = createHashRouter([
   {
     path: '/',
@@ -63,6 +64,10 @@ const router = createHashRouter([
   {
     path: '/submit/:pid',
     element: <Submit />,
+  },
+  {
+    path: '/submission/:sid',
+    element: <Submission />,
   },
   {
     path: '*',

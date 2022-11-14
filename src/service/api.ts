@@ -156,6 +156,23 @@ export async function submit(option: SubmitStruct): Promise<void> {
   }
 }
 
+export async function submission(sid?: string): Promise<Submission> {
+  try {
+    const response = await axios.post<SubmissionResponse>(
+      '/status/query',
+      qs.stringify({
+        sid: sid,
+      })
+    );
+    if (response.data === undefined) return Promise.reject('服务器错误');
+    if (response.data.code !== 0 || response.data.body === undefined)
+      return Promise.reject(response.data.msg ?? '服务器错误');
+    return response.data.body;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 export async function updateProblem(option: ProblemStruct): Promise<void> {
   try {
     if (

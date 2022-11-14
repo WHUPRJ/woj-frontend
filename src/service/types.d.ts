@@ -133,6 +133,15 @@ type QueryStruct = {
   pid: number;
 };
 
+type task = {
+  id: number;
+  points: number;
+  real_time: number;
+  cpu_time: number;
+  memory: number;
+  message: string;
+};
+
 type Submission = {
   submission: {
     meta: {
@@ -142,8 +151,12 @@ type Submission = {
     problem_id: number;
     user: Profile;
     language: string;
+    code: string;
   };
   point: number;
+  context?: {
+    tasks: Array<task>;
+  };
 };
 
 type SubmissionList = Array<Submission>;

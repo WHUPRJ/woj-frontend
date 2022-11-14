@@ -72,6 +72,7 @@ function App() {
             theme.palette.mode === 'light'
               ? theme.palette.grey[100]
               : theme.palette.grey[900],
+          height: '100%',
         }}
       >
         <CssBaseline />
