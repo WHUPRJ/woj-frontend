@@ -165,14 +165,16 @@ export default function RecordTable() {
                 {row.submission.meta.ID}
               </TableCell>
               <TableCell align="left" sx={{ width: 100 }}>
-                <Typography
-                  component="h2"
-                  variant="h6"
-                  color={row.point === 100 ? 'green' : 'red'}
-                  gutterBottom
-                >
-                  {row.point}
-                </Typography>
+                <a href={'/#/submission/' + row.submission.meta.ID}>
+                  <Typography
+                    component="h2"
+                    variant="h6"
+                    color={row.point === 100 ? 'green' : 'red'}
+                    gutterBottom
+                  >
+                    {row.point === -1 ? '正在评测' : row.point.toString()}
+                  </Typography>
+                </a>
               </TableCell>
               <TableCell align="left">{row.submission.problem_id}</TableCell>
               <TableCell align="left">{row.submission.language}</TableCell>
